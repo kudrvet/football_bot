@@ -7,6 +7,7 @@ run: _run
 psr12: _psr12
 psr12_fix: _psr12_fix
 tests: _tests
+build_prod: _build_prod
 
 _build:
 	docker-compose build && docker-compose up -d && docker exec -it bot_php composer install
@@ -34,3 +35,10 @@ _psr12_fix:
 
 _tests:
 	docker exec -it bot_php bin/phpunit
+
+_build_prod:
+	docker-compose -f docker-compose.deploy.yml build
+
+_up_prod:
+	docker-compose -f docker-compose.deploy.yml up -d
+
