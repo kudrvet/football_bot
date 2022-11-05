@@ -22,4 +22,4 @@
 
 .idea
 
-./docker/pg-data
+/docker/pg-data/

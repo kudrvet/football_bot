@@ -1,16 +1,38 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-
+  nginx:
+    container_name: bot_nginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - bot
   php:
+    container_name: bot_php
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    restart: always
     environment:
       APP_ENV: prod
     volumes:
       - ./:/var/www/html
+    networks:
+      - bot
 
   database:
-    ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+    image: postgres:${POSTGRES_VERSION:-14}-alpine
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: admin
+    volumes:
+      - ./docker/pg-data:/var/lib/postgresql/data:rw
 
+networks:
+  bot:
+    driver: bridge
