@@ -12,6 +12,7 @@ git reset --hard origin/deploy
 make build_prod
 
 # Install dependencies based on lock file
+
 composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Migrate database

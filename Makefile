@@ -39,7 +39,7 @@ _tests:
 
 _build_prod:
 	docker-compose -f docker-compose.deploy.yml build && docker-compose -f docker-compose.deploy.yml up -d &&
-
+	docker exec -it bot_php composer install && docker exec -it bot_php php bin/console cache:clear
 
 _up_prod:
 	docker-compose -f docker-compose.deploy.yml up -d
