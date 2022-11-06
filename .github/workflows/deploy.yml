@@ -38,5 +38,4 @@ jobs:
           host: 5.63.157.179
           key: ${{ secrets.SERVER_SSH_KEY}}
           passphrase: ''
-          #script: 'cd /var/projects/football_bot && sudo chmod +x ./server_deploy.sh && ./server_deploy.sh'
-          script: 'echo hi from prod!'
+          script: 'cd /var/projects/football_bot && sudo chmod +x ./server_deploy.sh && ./server_deploy.sh'
