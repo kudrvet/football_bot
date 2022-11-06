@@ -40,16 +40,16 @@ jobs:
           #envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
           file_name: .env
           # Copying files and artifacts via SSH
-          - name: Copying .env to server
-            uses: appleboy/scp-action@master
-            with:
-              username: root
-              host: 5.63.157.179
-              key: ${{ secrets.SERVER_SSH_KEY}}
-              passphrase: ''
-              rm: true
-              source: '.env'
-              target: '/var/projects/football_bot'
+      - name: Copying .env to server
+        uses: appleboy/scp-action@master
+        with:
+          username: root
+          host: 5.63.157.179
+          key: ${{ secrets.SERVER_SSH_KEY}}
+          passphrase: ''
+          rm: true
+          source: '.env'
+          target: '/var/projects/football_bot'
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         with:
