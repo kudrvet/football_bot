@@ -47,7 +47,6 @@ jobs:
           host: 5.63.157.179
           key: ${{ secrets.SERVER_SSH_KEY}}
           passphrase: ''
-          rm: true
           source: '.env'
           target: '/var/projects/football_bot'
       - name: Deploy to production
