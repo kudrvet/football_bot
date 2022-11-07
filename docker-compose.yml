@@ -27,13 +27,16 @@ services:
       - bot
 
   database:
+    container_name: bot_db
     image: postgres:${POSTGRES_VERSION:-14}-alpine
+    ports:
+      - "5431:5432"
     environment:
       POSTGRES_DB: database
       POSTGRES_PASSWORD: 12345
       POSTGRES_USER: admin
-    volumes:
-      - ./docker/pg-data:/var/lib/postgresql/data:rw
+    networks:
+      - bot
 
 networks:
   bot:
