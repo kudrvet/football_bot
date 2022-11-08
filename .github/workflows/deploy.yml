@@ -37,29 +37,34 @@ jobs:
         with:
           envkey_APP_ENV: prod
           envkey_APP_DEBUG: false
-          #envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
+          envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
           file_name: .env
       #create secrets for docker-compose
-      - name: Create secrets for docker-compose
-        run: 'echo "$SSH_KEY" > key'
+      - name: Create db_user secret for docker-compose
+        run: 'echo "$DB_USER" > db_user.txt'
         shell: bash
         env:
-          SSH_KEY: ${{secrets.SERVER_SSH_KEY}}
-      # Copying files and artifacts via SSH
+          DB_USER: ${{secrets.DB_USER}}
+      - name: Create db_password secret for docker-compose
+        run: 'echo "$DB_PASSWORD" > db_password.txt'
+        shell: bash
+        env:
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      # Copying env and secrets to server
       - name: Copying .env to server
         uses: appleboy/scp-action@master
         with:
-          username: root
-          host: 5.63.157.179
+          username: ${{ secrets.SERVER_SSH_LOGIN}}
+          host: ${{ secrets.SERVER_IP}}
           key: ${{ secrets.SERVER_SSH_KEY}}
           passphrase: ''
-          source: '.env,key'
+          source: '.env,db_user.txt,db_password.txt'
           target: '/var/projects/football_bot'
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         with:
-          username: root
-          host: 5.63.157.179
+          username: ${{ secrets.SERVER_SSH_LOGIN}}
+          host: ${{ secrets.SERVER_IP}}
           key: ${{ secrets.SERVER_SSH_KEY}}
           passphrase: ''
           script: 'cd /var/projects/football_bot && sudo chmod +x ./server_deploy.sh && ./server_deploy.sh'

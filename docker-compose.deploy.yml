@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   nginx:
@@ -28,10 +28,19 @@ services:
     image: postgres:${POSTGRES_VERSION:-14}-alpine
     environment:
       POSTGRES_DB: database
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: /run/secrets/db_password
+      POSTGRES_USER: /run/secrets/db_user
     volumes:
       - ./docker/pg-data:/var/lib/postgresql/data:rw
+    secrets:
+      - db_password
+      - db_user
+
+secrets:
+  db_user:
+    file: db_user.txt
+  db_password:
+    file: db_password.txt
 
 networks:
   bot:
