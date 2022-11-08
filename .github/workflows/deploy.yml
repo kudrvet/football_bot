@@ -53,7 +53,7 @@ jobs:
           host: 5.63.157.179
           key: ${{ secrets.SERVER_SSH_KEY}}
           passphrase: ''
-          source: '.env, other.txt'
+          source: '.env,key'
           target: '/var/projects/football_bot'
       - name: Deploy to production
         uses: appleboy/ssh-action@master
