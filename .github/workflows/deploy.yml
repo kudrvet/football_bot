@@ -40,8 +40,11 @@ jobs:
           #envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
           file_name: .env
       #create secrets for docker-compose
-      - name: Create file
-        run: echo ${{ secrets.SERVER_SSH_KEY}} > other.txt
+      - name: Create secrets for docker-compose
+        run: 'echo "$SSH_KEY" > key'
+        shell: bash
+        env:
+          SSH_KEY: ${{secrets.SERVER_SSH_KEY}}
       # Copying files and artifacts via SSH
       - name: Copying .env to server
         uses: appleboy/scp-action@master
