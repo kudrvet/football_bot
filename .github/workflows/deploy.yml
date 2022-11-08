@@ -39,7 +39,11 @@ jobs:
           envkey_APP_DEBUG: false
           #envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
           file_name: .env
-          # Copying files and artifacts via SSH
+      #create secrets for docker-compose
+      - name: Create file
+          run: |
+            echo ${{ secrets.SERVER_SSH_KEY}} > other.txt
+      # Copying files and artifacts via SSH
       - name: Copying .env to server
         uses: appleboy/scp-action@master
         with:
@@ -47,7 +51,7 @@ jobs:
           host: 5.63.157.179
           key: ${{ secrets.SERVER_SSH_KEY}}
           passphrase: ''
-          source: '.env'
+          source: '.env, other.txt'
           target: '/var/projects/football_bot'
       - name: Deploy to production
         uses: appleboy/ssh-action@master
