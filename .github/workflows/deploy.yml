@@ -41,7 +41,7 @@ jobs:
           file_name: .env
       #create secrets for docker-compose
       - name: Create file
-          run: echo ${{ secrets.SERVER_SSH_KEY}} > other.txt
+          run: echo 'asd' > other.txt
       # Copying files and artifacts via SSH
       - name: Copying .env to server
         uses: appleboy/scp-action@master
