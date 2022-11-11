@@ -30,6 +30,8 @@ services:
       POSTGRES_DB: database
       POSTGRES_PASSWORD: /run/secrets/db_password
       POSTGRES_USER: /run/secrets/db_user
+    ports:
+      - "5432:5432"
     volumes:
       - ./docker/pg-data:/var/lib/postgresql/data:rw
     secrets:
