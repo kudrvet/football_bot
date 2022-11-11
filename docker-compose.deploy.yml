@@ -25,6 +25,7 @@ services:
       - bot
 
   database:
+    container_name: bot_db
     image: postgres:${POSTGRES_VERSION:-14}-alpine
     environment:
       POSTGRES_DB: database
@@ -34,6 +35,8 @@ services:
       - "5432:5432"
     volumes:
       - ./docker/pg-data:/var/lib/postgresql/data:rw
+    networks:
+      - bot
     secrets:
       - db_password
       - db_user
@@ -46,4 +49,4 @@ secrets:
 
 networks:
   bot:
-    driver: bridge
+    name: bot
