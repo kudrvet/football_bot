@@ -11,7 +11,7 @@ build_prod: _build_prod
 down_prod: _down_prod
 
 _build:
-	docker-compose build && docker-compose up -d && docker exec -it bot_php composer install
+	docker-compose build && docker-compose up -d && docker exec -it bot_php composer install && docker exec bot_php php bin/console doctrine:migrations:migrate -n --allow-no-migration
 
 _up:
 	docker-compose up -d
@@ -38,7 +38,7 @@ _tests:
 	docker exec -it bot_php bin/phpunit
 
 _build_prod:
-	docker-compose -f docker-compose.deploy.yml build && docker-compose -f docker-compose.deploy.yml up -d && docker exec bot_php composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts && docker exec bot_php php bin/console cache:clear
+	docker-compose -f docker-compose.deploy.yml build && docker-compose -f docker-compose.deploy.yml up -d && docker exec bot_php composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts && docker exec bot_php php bin/console cache:clear && docker exec bot_php php bin/console doctrine:migrations:migrate -n --allow-no-migration
 
 _up_prod:
 	docker-compose -f docker-compose.deploy.yml up -d
