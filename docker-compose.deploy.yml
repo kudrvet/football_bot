@@ -34,7 +34,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker/pg-data:/var/lib/postgresql/data:rw
+      - pg_data:/var/lib/postgresql/data:rw
     networks:
       - bot
     secrets:
@@ -46,6 +46,9 @@ secrets:
     file: db_user.txt
   db_password:
     file: db_password.txt
+
+volumes:
+  pg_data:
 
 networks:
   bot:
