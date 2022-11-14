@@ -11,6 +11,6 @@ class TestController extends AbstractController
     #[Route(path: '/test',name: 'root')]
     public function root()
     {
-        return new Response('Hello!');
+        return new Response('Hello from code!');
     }
 }
