@@ -27,19 +27,14 @@ jobs:
         with:
           # Specify the PHP version
           php-version: '8.0'
-      - name: Commit built assets
-        run: |
-          git checkout -B deploy
-          git push -f origin deploy
-      #Prepare .env file for production
       - name: Make production envfile
         uses: SpicyPizza/create-envfile@v1
         with:
           envkey_APP_ENV: prod
           envkey_APP_DEBUG: false
           envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          envkey_MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
           file_name: .env
-      #create secrets for docker-compose
       - name: Create db_user secret for docker-compose
         run: 'echo "$DB_USER" > db_user.txt'
         shell: bash
@@ -50,15 +45,14 @@ jobs:
         shell: bash
         env:
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
-      # Copying env and secrets to server
-      - name: Copying .env to server
+      - name: Copying .env, secrets, deploy script to server
         uses: appleboy/scp-action@master
         with:
           username: ${{ secrets.SERVER_SSH_LOGIN}}
           host: ${{ secrets.SERVER_IP}}
           key: ${{ secrets.SERVER_SSH_KEY}}
           passphrase: ''
-          source: '.env,db_user.txt,db_password.txt'
+          source: '.env,db_user.txt,db_password.txt,server_deploy.sh'
           target: '/var/projects/football_bot'
       - name: Deploy to production
         uses: appleboy/ssh-action@master

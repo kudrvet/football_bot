@@ -6,8 +6,8 @@ echo "Deploying application ..."
 make down_prod
 
 # Update codebase
-git fetch origin deploy
-git reset --hard origin/deploy
+git fetch origin production
+git reset --hard origin/production
 
 make build_prod
 
